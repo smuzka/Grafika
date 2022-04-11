@@ -35,14 +35,21 @@ class GUIMyFrame1 : public MyFrame1
 		/** Constructor */
 		GUIMyFrame1( wxWindow* parent );
 	//// end generated class members
+
+
 	  void Repaint();
-	  void DrawSegment(wxDC* dc, Segment segment, int w, int h);
+	  void DrawSegment(wxDC* dc, Segment segment, int w, int h, double z);
 	  Matrix4 ScalingMatrix();
 	  Matrix4 XRotateMatrix();
 	  Matrix4 YRotateMatrix();
 	  Matrix4 ZRotateMatrix();
 	  Matrix4 TranslationMatrix();
 	  Matrix4 CenterMatrix(int w, int h);
+
+
+
+
+
 
 };
 

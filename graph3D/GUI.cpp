@@ -248,7 +248,41 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	WxSB_ScaleZ->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( MyFrame1::Scrolls_Updated ), NULL, this );
 	WxSB_ScaleZ->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( MyFrame1::Scrolls_Updated ), NULL, this );
 	WxSB_ScaleZ->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( MyFrame1::Scrolls_Updated ), NULL, this );
+
+
+
+
+	WxPanel->Connect(wxEVT_MOTION, wxMouseEventHandler(MyFrame1::Mouse_Move), NULL, this);
+	WxPanel->Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(MyFrame1::leftdown), NULL, this);
+	WxPanel->Connect(wxEVT_LEFT_UP, wxMouseEventHandler(MyFrame1::leftup), NULL, this);
+	IsLeftPressed = false;
 }
+
+
+void MyFrame1::leftdown(wxMouseEvent& e) {
+	mousepos = wxGetMousePosition();
+	IsLeftPressed = true;
+}
+
+void MyFrame1::leftup(wxMouseEvent& e) {
+	IsLeftPressed = false;
+}
+
+void MyFrame1::Mouse_Move(wxMouseEvent& e)
+{
+	wxMouseState mousestate;
+
+	if (IsLeftPressed) {
+
+		WxSB_RotateX->SetValue(wxGetMousePosition().y - mousepos.y);
+		WxSB_RotateY->SetValue(wxGetMousePosition().x - mousepos.x);
+
+		this->SetTitle("Przesunięto myszkę: X=" + wxString::Format("%d", e.m_x) + "   Y=" + wxString::Format("%d", e.m_y));
+	}
+
+}
+
+
 
 MyFrame1::~MyFrame1()
 {

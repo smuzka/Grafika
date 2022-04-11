@@ -43,6 +43,9 @@ MyFrame1( parent )
  WxSB_ScaleX->SetRange(1, 200); WxSB_ScaleX->SetValue(100);
  WxSB_ScaleY->SetRange(1, 200); WxSB_ScaleY->SetValue(100);
  WxSB_ScaleZ->SetRange(1, 200); WxSB_ScaleZ->SetValue(100);
+
+
+
 }
 
 void GUIMyFrame1::WxPanel_Repaint( wxUpdateUIEvent& event )
@@ -108,9 +111,10 @@ void GUIMyFrame1::Repaint()
 
 
     for (auto element : data) {
-        DrawSegment(&dc, element, w, h);
+        for (double i = element.begin.y; i < element.end.y; i += (element.end.y - element.begin.y)) {
+            DrawSegment(&dc, element, w, h, i);
+        }
     }
-
 }
 
 Matrix4 GUIMyFrame1::TranslationMatrix() {
@@ -193,7 +197,12 @@ Matrix4 GUIMyFrame1::CenterMatrix(int w, int h) {
 }
 
 
-void GUIMyFrame1::DrawSegment(wxDC* dc, Segment segment, int w, int h) {
+void GUIMyFrame1::DrawSegment(wxDC* dc, Segment segment, int w, int h, double z) {
+
+
+
+
+
 
     Vector4 begin, end;
     begin.data[0] = segment.begin.x;
@@ -216,14 +225,13 @@ void GUIMyFrame1::DrawSegment(wxDC* dc, Segment segment, int w, int h) {
     end.data[1] /= end.data[3];
     end.data[2] /= end.data[3];
 
+    double ZDistance = 255 * z / 2;
+    dc->SetPen(wxPen(wxColor(128 + ZDistance, 0, 128 - ZDistance)));
 
-    dc->SetPen(wxPen(wxColor(segment.color.R, segment.color.G, segment.color.B)));
+    //dc->SetPen(wxPen(wxColor(segment.color.R, segment.color.G, segment.color.B)));
     dc->DrawLine(wxPoint(begin.data[0], begin.data[1]), wxPoint(end.data[0], end.data[1]));
 
 }
-
-
-
 
 
 
