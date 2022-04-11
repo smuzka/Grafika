@@ -80,6 +80,8 @@ class MyFrame1 : public wxFrame
 		void Mouse_Move(wxMouseEvent& e);
 		bool IsLeftPressed;
 		wxPoint mousepos;
+		double XRotationpos;
+		double YRotationpos;
 
 
 
